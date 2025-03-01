@@ -1,0 +1,22 @@
+[package]
+name = "serde_map"
+version = "0.1.0"
+authors = ["Dmitry Rodionov <gh@rdmtr.com>"]
+description = "`Map` based on `Vec` for serialization purposes"
+documentation = "https://docs.rs/serde_map/"
+repository = "https://github.com/RoDmitry/serde_map"
+categories = ["data-structures"]
+keywords = ["map", "vec", "serde", "deserialize", "scylla"]
+exclude = [".github/*", "tests/*"]
+readme = "README.md"
+license = "MIT OR Apache-2.0"
+edition = "2021"
+
+[dependencies]
+scylla = { version = "0.15", optional = true }
+serde = "1"
+typesense = { version = "0", optional = true }
+
+[features]
+scylla = ["dep:scylla"]
+typesense = ["dep:typesense"]
