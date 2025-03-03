@@ -5,9 +5,9 @@ use serde::de::{Deserialize, Deserializer, Error, MapAccess, Visitor};
 use serde::ser::{Serialize, SerializeMap, Serializer};
 
 #[cfg(feature = "scylla")]
-pub mod scylla;
+mod scylla;
 #[cfg(feature = "typesense")]
-pub mod typesense;
+mod typesense;
 
 /// Helps to process data at the serialization/deserialization stage, before saving to the inner `Vec`.
 /// Example:
