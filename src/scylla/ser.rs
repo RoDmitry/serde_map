@@ -1,12 +1,17 @@
 use crate::{SerdeMap, SerdeMapStrategy};
-use scylla::cluster::metadata::CollectionType;
-use scylla::frame::response::result::ColumnType;
-use scylla::serialize::value::{
-    BuiltinSerializationError, BuiltinSerializationErrorKind, BuiltinTypeCheckError,
-    BuiltinTypeCheckErrorKind, MapSerializationErrorKind, MapTypeCheckErrorKind, SerializeValue,
+use scylla::{
+    cluster::metadata::CollectionType,
+    frame::response::result::ColumnType,
+    serialize::{
+        value::{
+            BuiltinSerializationError, BuiltinSerializationErrorKind, BuiltinTypeCheckError,
+            BuiltinTypeCheckErrorKind, MapSerializationErrorKind, MapTypeCheckErrorKind,
+            SerializeValue,
+        },
+        writers::{CellWriter, WrittenCellProof},
+        SerializationError,
+    },
 };
-use scylla::serialize::writers::{CellWriter, WrittenCellProof};
-use scylla::serialize::SerializationError;
 
 // copied from scylla
 fn mk_ser_err_named(

@@ -1,8 +1,9 @@
-use ::core::fmt;
-use ::core::marker::PhantomData;
+use ::core::{fmt, marker::PhantomData};
 use ::std::collections::HashMap;
-use serde::de::{Deserialize, Deserializer, Error, MapAccess, Visitor};
-use serde::ser::{Serialize, SerializeMap, Serializer};
+use serde::{
+    de::{Deserialize, Deserializer, Error, MapAccess, Visitor},
+    ser::{Serialize, SerializeMap, Serializer},
+};
 
 #[cfg(feature = "scylla")]
 mod scylla;
@@ -260,4 +261,28 @@ map_impl! {
     SerdeMap<K, V, KS: SerdeMapStrategy<K> >,
     map,
     SerdeMap::new(),
+}
+
+#[cfg(test)]
+mod test {
+    use super::*;
+
+    struct StringStrategy;
+
+    impl SerdeMapStrategy<String> for StringStrategy {
+        type Des = i64;
+        type SerRet<'s> = String;
+        fn serialize(d: &i64) -> Self::SerRet<'_> {
+            d.to_string()
+        }
+        fn deserialize<E: Error>(s: String) -> Result<Self::Des, E> {
+            s.parse().map_err(Error::custom)
+        }
+    }
+
+    #[test]
+    fn change_strategy() {
+        let old: SerdeMap<String, u8, StringStrategy> = Default::default();
+        let _new: SerdeMap<i64, u8, Linear> = SerdeMap(old.0, PhantomData);
+    }
 }

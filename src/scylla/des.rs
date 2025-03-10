@@ -1,8 +1,12 @@
 use crate::{SerdeMap, SerdeMapStrategy};
-use scylla::deserialize::value::{DeserializeValue, MapIterator};
-use scylla::deserialize::FrameSlice;
-use scylla::errors::{DeserializationError, TypeCheckError};
-use scylla::frame::response::result::ColumnType;
+use scylla::{
+    deserialize::{
+        value::{DeserializeValue, MapIterator},
+        FrameSlice,
+    },
+    errors::{DeserializationError, TypeCheckError},
+    frame::response::result::ColumnType,
+};
 
 impl<'frame, 'metadata, K, V, KS> DeserializeValue<'frame, 'metadata> for SerdeMap<K, V, KS>
 where
