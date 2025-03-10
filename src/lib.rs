@@ -152,10 +152,17 @@ impl<'a, K, V, KS: SerdeMapStrategy<K>> IntoIterator for &'a mut SerdeMap<K, V, 
     }
 }
 
+impl<K, V, KS: SerdeMapStrategy<K>> FromIterator<(KS::Des, V)> for SerdeMap<K, V, KS> {
+    #[inline]
+    fn from_iter<T: IntoIterator<Item = (KS::Des, V)>>(iter: T) -> Self {
+        Self(iter.into_iter().collect(), PhantomData)
+    }
+}
+
 impl<K, V, KS: SerdeMapStrategy<K>> From<Vec<(KS::Des, V)>> for SerdeMap<K, V, KS> {
     #[inline]
     fn from(data: Vec<(KS::Des, V)>) -> Self {
-        SerdeMap(data, PhantomData)
+        Self(data, PhantomData)
     }
 }
 
@@ -163,7 +170,7 @@ impl<K, V, KS: SerdeMapStrategy<K>, S> From<HashMap<KS::Des, V, S>> for SerdeMap
     #[inline]
     fn from(hash: HashMap<KS::Des, V, S>) -> Self {
         let data = hash.into_iter().collect();
-        SerdeMap(data, PhantomData)
+        Self(data, PhantomData)
     }
 }
 

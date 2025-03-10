@@ -1,4 +1,5 @@
 use crate::{SerdeMap, SerdeMapStrategy};
+use scylla::cluster::metadata::CollectionType;
 use scylla::frame::response::result::ColumnType;
 use scylla::serialize::value::{
     BuiltinSerializationError, BuiltinSerializationErrorKind, BuiltinTypeCheckError,
@@ -43,7 +44,10 @@ fn serialize_mapping<'t, 'b, K: SerializeValue + 't, V: SerializeValue + 't>(
     writer: CellWriter<'b>,
 ) -> Result<WrittenCellProof<'b>, SerializationError> {
     let (ktyp, vtyp) = match typ {
-        ColumnType::Map(k, v) => (k, v),
+        ColumnType::Collection {
+            frozen: false,
+            typ: CollectionType::Map(k, v),
+        } => (k, v),
         _ => {
             return Err(mk_typck_err_named(
                 rust_name,

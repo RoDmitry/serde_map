@@ -13,7 +13,7 @@ license = "MIT OR Apache-2.0"
 edition = "2021"
 
 [dependencies]
-scylla = { version = "0.15", optional = true }
+scylla = { version = "1", optional = true }
 serde = "1"
 typesense = { version = "0", optional = true }
 
