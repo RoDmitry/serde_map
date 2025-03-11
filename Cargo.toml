@@ -1,6 +1,6 @@
 [package]
 name = "serde_map"
-version = "0.1.0"
+version = "0.2.0"
 authors = ["Dmitry Rodionov <gh@rdmtr.com>"]
 description = "`Map` based on `Vec` for serialization purposes"
 documentation = "https://docs.rs/serde_map/"
