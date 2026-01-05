@@ -22,7 +22,7 @@ mod typesense;
 ///     type Des = i64; // deserialized type
 ///     type SerRet<'s> = String; // serialization return type
 ///
-///     fn serialize(d: &i64) -> Self::SerRet<'_> {
+///     fn serialize(d: &Self::Des) -> Self::SerRet<'_> {
 ///         d.to_string()
 ///     }
 ///
@@ -272,7 +272,7 @@ mod test {
     impl SerdeMapStrategy<String> for StringStrategy {
         type Des = i64;
         type SerRet<'s> = String;
-        fn serialize(d: &i64) -> Self::SerRet<'_> {
+        fn serialize(d: &Self::Des) -> Self::SerRet<'_> {
             d.to_string()
         }
         fn deserialize<E: Error>(s: String) -> Result<Self::Des, E> {
